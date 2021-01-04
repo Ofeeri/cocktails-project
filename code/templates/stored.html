@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>saved cocktails</title>
+
+	<link rel="stylesheet" href="static\\stored.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap" rel="stylesheet">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<header>ggggg</header>
+	<div class="wrapper">
+		<h1>Your cocktails:</h1>
+		{% if not delete_mode: %}
+			<div id="display">
+				{% for c in cocktails: %}
+					<form id="cocktail" action="profile" method="POST">
+						<input type="submit" name="select" value="{{c.name}}">
+					</form>
+					<br>
+				{% endfor %}
+			</div>
+			<form id="delete" method="POST">
+				<input type="submit" name="delete" value="delete cocktails">
+			</form>
+		{% endif %}
+
+		{% if delete_mode: %}
+			<div id="delete-display">
+				{% for c in cocktails: %}
+					<form id="cocktail" method="POST">
+						<input type="checkbox" name="delete-one" value="{{c.name}}">
+						<label>{{c.name}}</label>
+						<br>
+				{% endfor %}
+						<br>
+						<input id="submit-delete" type="submit" value="Submit">
+					</form>
+			</div>
+		{% endif %}
+	</div>
+	<footer>ggggg</footer>
+</body>
+</html>

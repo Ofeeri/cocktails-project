@@ -1,0 +1,492 @@
+{
+  "canvas": {
+    "width": 2000,
+    "height": 2000,
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "show": {
+      "tableComment": false,
+      "columnComment": false,
+      "columnDataType": true,
+      "columnDefault": false,
+      "columnAutoIncrement": false,
+      "columnPrimaryKey": true,
+      "columnUnique": false,
+      "columnNotNull": false,
+      "relationship": true
+    },
+    "database": "MySQL",
+    "databaseName": "",
+    "canvasType": "ERD",
+    "language": "GraphQL",
+    "tableCase": "pascalCase",
+    "columnCase": "camelCase",
+    "setting": {
+      "relationshipDataTypeSync": true,
+      "columnOrder": [
+        "columnName",
+        "columnDataType",
+        "columnNotNull",
+        "columnUnique",
+        "columnAutoIncrement",
+        "columnDefault",
+        "columnComment"
+      ]
+    }
+  },
+  "table": {
+    "tables": [
+      {
+        "name": "cocktails",
+        "comment": "",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "b77543a1-11bb-4376-afad-53e93fd1b28d"
+          },
+          {
+            "name": "name",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "a8fe40ca-a2a4-b88e-169a-fb50bcd6cac0"
+          },
+          {
+            "name": "glass",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "0095db9a-dce3-a617-81b7-0d19430b9acb"
+          },
+          {
+            "name": "preparation",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 68,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "396c9665-2e26-047f-163b-0f9626bb8094"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 200,
+          "top": 100,
+          "zIndex": 201,
+          "widthName": 60,
+          "widthComment": 60
+        },
+        "id": "47f45e64-0ad5-abf9-06c9-5c3a5594a19b"
+      },
+      {
+        "name": "cocktail_garnishes",
+        "comment": "",
+        "columns": [
+          {
+            "name": "cocktail_id",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 62,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "9f6e5b92-0ec1-d482-b268-92776827a61b"
+          },
+          {
+            "name": "garnish_id",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 62,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "fd10786b-d1fb-b23e-2ec4-2ace8362d81d"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 554.0000000000007,
+          "top": 105.55555555555553,
+          "zIndex": 136,
+          "widthName": 109,
+          "widthComment": 60
+        },
+        "id": "07b85cf2-49de-0fe9-2d21-4f2fc8cae5e3"
+      },
+      {
+        "name": "garnishes",
+        "comment": "",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "a7b01663-ce10-68e0-5408-c3a826523ea7"
+          },
+          {
+            "name": "name",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "1deba969-6b00-97d3-4b1d-fcf950be2d70"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 889.3333333333335,
+          "top": 110.22222222222217,
+          "zIndex": 129,
+          "widthName": 60,
+          "widthComment": 60
+        },
+        "id": "9d52a6f1-a5e3-dbb9-2f38-55c2ddaeb2a1"
+      },
+      {
+        "name": "ingredients",
+        "comment": "",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "d968d696-9a98-bdaf-8ea6-5d97b7403281"
+          },
+          {
+            "name": "name",
+            "comment": "",
+            "dataType": "TEXT",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "0045a91d-e81f-aece-4e2c-8e70141705b6"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 892.6666666666678,
+          "top": 261.11111111111114,
+          "zIndex": 184,
+          "widthName": 66,
+          "widthComment": 60
+        },
+        "id": "be8c3990-2235-b2ed-6045-4b1926107143"
+      },
+      {
+        "name": "cocktail_ingredients",
+        "comment": "",
+        "columns": [
+          {
+            "name": "cocktail_id",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 62,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "55fcd13b-9f71-6896-39e0-329aa9f6ffd9"
+          },
+          {
+            "name": "ingredient_id",
+            "comment": "",
+            "dataType": "INTEGER",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 77,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "459c10e1-734f-f6aa-64ef-1062ad05513c"
+          }
+        ],
+        "ui": {
+          "active": false,
+          "left": 560.2222222222227,
+          "top": 258.4444444444438,
+          "zIndex": 194,
+          "widthName": 116,
+          "widthComment": 60
+        },
+        "id": "97829887-c139-c72f-71cd-ed129e1f57ee"
+      }
+    ],
+    "indexes": []
+  },
+  "memo": {
+    "memos": []
+  },
+  "relationship": {
+    "relationships": [
+      {
+        "identification": false,
+        "start": {
+          "tableId": "9d52a6f1-a5e3-dbb9-2f38-55c2ddaeb2a1",
+          "columnIds": [
+            "a7b01663-ce10-68e0-5408-c3a826523ea7"
+          ],
+          "x": 889.3333333333335,
+          "y": 165.22222222222217,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "07b85cf2-49de-0fe9-2d21-4f2fc8cae5e3",
+          "columnIds": [
+            "9f6e5b92-0ec1-d482-b268-92776827a61b"
+          ],
+          "x": 734.0000000000007,
+          "y": 160.55555555555554,
+          "direction": "right"
+        },
+        "id": "81115af1-b4c8-2982-c2e2-43aa645c8693",
+        "relationshipType": "OneN"
+      },
+      {
+        "identification": false,
+        "start": {
+          "tableId": "47f45e64-0ad5-abf9-06c9-5c3a5594a19b",
+          "columnIds": [
+            "b77543a1-11bb-4376-afad-53e93fd1b28d"
+          ],
+          "x": 386,
+          "y": 137.75,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "07b85cf2-49de-0fe9-2d21-4f2fc8cae5e3",
+          "columnIds": [
+            "fd10786b-d1fb-b23e-2ec4-2ace8362d81d"
+          ],
+          "x": 554.0000000000007,
+          "y": 160.55555555555554,
+          "direction": "left"
+        },
+        "id": "18fb7cbf-188c-a79a-af75-aa2ddbe6393d",
+        "relationshipType": "OneN"
+      },
+      {
+        "identification": false,
+        "start": {
+          "tableId": "be8c3990-2235-b2ed-6045-4b1926107143",
+          "columnIds": [
+            "d968d696-9a98-bdaf-8ea6-5d97b7403281"
+          ],
+          "x": 892.6666666666678,
+          "y": 316.11111111111114,
+          "direction": "left"
+        },
+        "end": {
+          "tableId": "97829887-c139-c72f-71cd-ed129e1f57ee",
+          "columnIds": [
+            "459c10e1-734f-f6aa-64ef-1062ad05513c"
+          ],
+          "x": 755.2222222222227,
+          "y": 313.4444444444438,
+          "direction": "right"
+        },
+        "id": "751bfe70-8b89-6dd8-2ba3-e1a474177188",
+        "relationshipType": "OneN"
+      },
+      {
+        "identification": false,
+        "start": {
+          "tableId": "47f45e64-0ad5-abf9-06c9-5c3a5594a19b",
+          "columnIds": [
+            "b77543a1-11bb-4376-afad-53e93fd1b28d"
+          ],
+          "x": 386,
+          "y": 213.25,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "97829887-c139-c72f-71cd-ed129e1f57ee",
+          "columnIds": [
+            "55fcd13b-9f71-6896-39e0-329aa9f6ffd9"
+          ],
+          "x": 560.2222222222227,
+          "y": 313.4444444444438,
+          "direction": "left"
+        },
+        "id": "d741ed57-2706-2ef7-96f5-2bbed3d38968",
+        "relationshipType": "OneN"
+      }
+    ]
+  }
+}

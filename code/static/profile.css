@@ -1,0 +1,230 @@
+body {
+	height: 100%;
+	color: white;
+	margin: 0px;
+
+	background-image: url("\\static\\images\\hanging-glasses.jpg");
+  	background-size: cover;
+  	font-family: 'Libre Baskerville', serif;
+}
+
+.wrapper {
+	margin: auto;
+	width: 70%;
+	min-height: 100%;
+
+	background: #000000;
+	opacity: 0.82;
+}
+
+.content {
+	padding-bottom: 5%;
+}
+
+h1 {
+	margin-top: 1%;
+	margin-left: 1%;
+}
+
+#h1-wrapper {
+	display: flex;
+	justify-content: space-between;
+}
+
+#logout {
+	margin-top: 1.8%;
+	margin-right: 2%;
+
+}
+
+#logout input {
+	color: black;
+	border: 1px solid #FC6161;
+	background-color: white;
+	border-radius: 5px;
+}
+
+#stored {
+	margin-top: 1.8%;
+	margin-right: 5%;
+
+}
+
+#stored input {
+	color: black;
+	border: 1px solid #FC6161;
+	background-color: white;
+	border-radius: 5px;
+}
+
+#logout input:hover {
+	color: white;
+	background-color: black;
+	transition-duration: 0.7s;
+}
+
+header {
+	color: black;
+	background: black;
+	width: 100%;
+	opacity: 0.82;
+	height: 5%;
+}
+
+footer {
+	color: black;
+	background: black;
+	width: 100%;
+	height: 3%;
+	opacity: 0.82;
+	bottom: 0;
+	position: fixed;
+}
+
+#forms-wrapper {
+	display: flex;
+}
+
+#search {
+	margin-right: 1%;
+	margin-left: 2%;
+}
+
+#search label {
+	font-size: 10px;
+}
+
+#search input {
+	color: white;
+	background-color: black;
+	border: 1px solid white; 
+}
+
+#random input {
+	color: white;
+	border: 2px solid #7C9F99;
+	background-color: black;
+	border-radius: 5px;
+	transition-duration: 0.7s;
+}
+
+#random input:hover {
+	color: black;
+	background-color: white;
+	transition-duration: 0.7s;
+}
+
+#info-display {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+    flex-direction: row;
+    padding-right: 2%;
+}
+
+#search-display {
+	margin-left: 3%;
+}
+
+#search-display input {
+	color: black;
+	background-color: white;
+	border: 1px solid white;
+	border-radius: 5px;
+	transition-duration: 0.7s;
+}
+
+
+#search-display input:hover {
+	color: white;
+	background-color: black;
+	transition-duration: 0.7s;
+}
+
+.main-wrapper {
+	order: -1;
+	flex: 1 0 100%;
+	margin-left: 2%;
+	border-top: 5px solid white;
+	border-bottom: 5px solid white;
+}
+
+.ingredients-wrapper {
+	margin-left: 0.5%;
+}
+
+.ingredients-wrapper h3 {
+	margin-left: 5%;
+}
+
+.garnishes-wrapper h3 {
+	margin-left: 10%;
+}
+
+#store {
+	margin-left: 3%;
+	flex: 1 0 100%;
+
+}
+
+#store input {
+	color: black;
+	border: 2px solid #7C9F99;
+	background-color: white;
+	border-radius: 5px;
+	width: 10%;
+	transition-duration: 0.7s;
+	font-weight: bold;
+}
+
+#store input:hover {
+	color: white;
+	background-color: black;
+	transition-duration: 0.7s;
+}
+
+
+#store-info {
+	margin-left: 3%;
+	font-size: 12px;
+}
+
+@media screen and (max-width: 800px) {
+	body {
+		background-size: cover;
+	}
+
+	input {
+		height: 30px;
+		font-size: 16px;
+		font-weight: bold;
+	}
+
+	h1 {
+		font-size: 22px;
+	}
+
+	.wrapper {
+		width: 100%;
+	}
+
+	#stored {
+		margin-left: 3%;
+	}
+
+	#random {
+		margin-left: 5%;
+		margin-right: 3%;
+	}
+
+	#random input {
+		width: 115px;
+	}
+
+	#store input {
+		width: 20%;
+		height: 30px;
+		font-size: 16px;
+	}
+
+}
