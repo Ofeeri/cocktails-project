@@ -6,13 +6,17 @@ import random
 import os
 
 
+
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///C:\\python_course\\coctkails_project\\cocktails.db'
+
+password = os.environ.get('POSTGRE_PASS')
+app.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://postgres:{password}@localhost:5432/cocktailpg'
 app.secret_key = os.environ.get('COCKTAILS_FLASK_KEY')
 db = SQLAlchemy(app)
 table_names = db.engine.table_names()
 Base = automap_base()
 Base.prepare(db.engine, reflect=True)
+
 
 cocktails = Base.classes.cocktails
 garnishes = Base.classes.garnishes
@@ -139,6 +143,7 @@ def logout():
     f_session.clear() # f_session has all cached data and this clears it
     return redirect(url_for('login'))
 
+
 @app.route('/stored', methods=['GET', 'POST'])
 def stored():
     if f_session['login_success']:
@@ -160,11 +165,13 @@ def register():
         if 'new_username' in request.form and 'new_password' in request.form:
             new_username = request.form['new_username']
             new_password = request.form['new_password']
-            new_user = users(username=new_username, password=new_password)
-            db.session.add(new_user)
-            db.session.commit()
-            return redirect(url_for("login"))
+            if len(new_username) > 0 and len(new_password) > 0:
+                new_user = users(username=new_username, password=new_password)
+                db.session.add(new_user)
+                db.session.commit()
+                return redirect(url_for("login"))
     return render_template("register.html")
+
 
 if __name__ == '__main__':
     app.run(threaded=True, port=5000)
