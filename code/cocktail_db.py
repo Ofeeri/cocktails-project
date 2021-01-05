@@ -1,17 +1,25 @@
 import sqlite3
 import pandas
+import psycopg2
+
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+
+
 
 COCKTAILS_CSV = r"C:\python_course\coctkails_project\cocktails.csv"
 
 cocktails = pandas.read_csv(COCKTAILS_CSV)
-cocktails.columns = [c.replace(' ', '_') for c in
-                     cocktails.columns]  # this changes cocktail name to cocktail_name so that is can be called (cocktail.cocktail_name)
+cocktails.columns = [c.replace(' ', '_') for c in cocktails.columns]  # this changes cocktail name to cocktail_name so that is can be called (cocktail.cocktail_name)
+cocktail_attributes = cocktails[['Cocktail_Name', 'Ingredients', 'Garnish', 'Glassware', 'Preparation']]
+main_cocktail_attributes = cocktails[['Cocktail_Name', 'Glassware', 'Preparation']]
+# db = sqlite3.connect("C:\python_course\coctkails_project\cocktails.db")
 
-# print(cocktails[['Cocktail_Name', 'Ingredients', 'Garnish', 'Glassware', 'Preparation']])
 
-db = sqlite3.connect("C:\python_course\coctkails_project\cocktails.db")
+con = psycopg2.connect(database='cocktailpg', user='postgres', password='26Fountainsfall', host='127.0.0.1')
+cursor = con.cursor()
+con.autocommit = True
 
-cursor = db.cursor()
+
 
 
 def double_apostrophe(string):
@@ -25,53 +33,63 @@ def double_apostrophe(string):
 
 
 def create_db():
-    create_commands = """CREATE TABLE IF NOT EXISTS cocktail_garnishes
-    (
-      cocktail_id INTEGER,
-      garnish_id    INTEGER,
-      FOREIGN KEY(cocktail_id) REFERENCES cocktails(id)
-      FOREIGN KEY(garnish_id) REFERENCES garnishes(id)
-    );
+    create_commands = """
     
-    CREATE TABLE IF NOT EXISTS cocktail_ingredients
+    DROP TABLE IF EXISTS cocktails CASCADE;
+    CREATE TABLE cocktails
     (
-      cocktail_id INTEGER,
-      ingredient_id    INTEGER,
-      FOREIGN KEY(cocktail_id) REFERENCES cocktails(id)
-      FOREIGN KEY(ingredient_id) REFERENCES ingredients(id)
-    );
-    
-    CREATE TABLE IF NOT EXISTS cocktails
-    (
-      id        INTEGER,
+      id   SERIAL,
       name      TEXT NOT NULL,
       glass     TEXT,
       prep      TEXT,
       PRIMARY KEY (id)
     );
     
-    CREATE TABLE IF NOT EXISTS garnishes
+    DROP TABLE IF EXISTS garnishes CASCADE;
+    CREATE TABLE garnishes
     (
-      id   INTEGER,
+      id   SERIAL,
       name TEXT NOT NULL,
       PRIMARY KEY (id)
     );
     
-    CREATE TABLE IF NOT EXISTS ingredients
+    DROP TABLE IF EXISTS ingredients CASCADE;
+    CREATE TABLE ingredients
     (
-      id   INTEGER,
+      id   SERIAL,
       name TEXT NOT NULL,
       PRIMARY KEY (id)
-    );"""
-
-    cursor.executescript(create_commands)
+    );
+    
+    DROP TABLE IF EXISTS cocktail_garnishes CASCADE;
+    CREATE TABLE cocktail_garnishes
+    (
+      cocktail_id   INTEGER,
+      garnish_id    INTEGER,
+      FOREIGN KEY(cocktail_id) REFERENCES cocktails(id),
+      FOREIGN KEY(garnish_id) REFERENCES garnishes(id)
+    );
+    
+    DROP TABLE IF EXISTS cocktail_ingredients CASCADE;
+    CREATE TABLE cocktail_ingredients
+    (
+      cocktail_id INTEGER,
+      ingredient_id INTEGER,
+      FOREIGN KEY(cocktail_id) REFERENCES cocktails(id),
+      FOREIGN KEY(ingredient_id) REFERENCES ingredients(id)
+    );
+    """
+    cursor.execute(create_commands)
+    con.commit()
 
 
 def initial_table_insert(dataset, table_name):
     for ele in dataset:
+        if "'" in ele:
+            ele = double_apostrophe(string=ele)
         ele = ele.strip()
-        db.execute(f"INSERT INTO {table_name} VALUES (:id, :name)", {'id': None, 'name': ele})
-        db.commit()
+        cursor.execute(f"INSERT INTO {table_name} (name) VALUES('{ele}') RETURNING id;")
+        con.commit()
 
 
 def normalize_rows(column):
@@ -88,76 +106,82 @@ def normalize_rows(column):
 
 
 def insert_data_into_cocktails():
-    for n in cocktails.Cocktail_Name:
-        cursor.execute('INSERT INTO cocktails VALUES (:id, :name, :glass, :prep)',
-                       {'id': None, 'name': n, 'glass': None, 'prep': None})
-        db.commit()
-    current_id = 1
-    for g in cocktails.Glassware:
-        cursor.execute(f'UPDATE cocktails SET glass = :glass WHERE id = :id', {'glass': g, 'id': current_id})
-        db.commit()
-        current_id += 1
-    current_id = 1
-    for p in cocktails.Preparation:
-        cursor.execute(f'UPDATE cocktails SET prep = :prep WHERE id = :id', {'prep': p, 'id': current_id})
-        db.commit()
-        current_id += 1
+    for row in main_cocktail_attributes.itertuples():
+        name = row[1]
+        glass = row[2]
+        prep = row[3]
+        if "'" in name:
+            name = double_apostrophe(string=name)
+        if type(prep) == str and "'" in prep:
+            prep = double_apostrophe(string=prep)
+        cursor.execute(f"INSERT INTO cocktails (name, glass, prep) VALUES ('{name}', '{glass}', '{prep}') RETURNING id;")
+        con.commit()
 
 
 def insert_cocktail_garnishes():
-    current_id = 1
-    for garnish in cocktails.Garnish:
-        if type(garnish) != float:
-            garnish_list = garnish.split(',')
-            for ele in garnish_list:
-                if "'" in ele:
-                    ele = double_apostrophe(string=ele)
-                ele = f" '{ele.strip()}' "
-                cursor.execute(f'''SELECT id from garnishes WHERE name = {ele}; ''')
+    cocktail_garnishes = cocktails[['Cocktail_Name', 'Garnish']]
+    for row in cocktail_garnishes.itertuples():
+        cocktail_name = row[1]
+        if "'" in cocktail_name:
+            cocktail_name = double_apostrophe(string=cocktail_name)
+        garnishes = row[2]
+        if type(garnishes) != float:
+            cursor.execute(f"SELECT id from cocktails WHERE name = '{cocktail_name}';")
+            cocktail_id = cursor.fetchone()[0]
+            garnish_list = garnishes.split(',')
+            for garnish in garnish_list:
+                if "'" in garnish:
+                    garnish = double_apostrophe(string=garnish)
+                garnish = f" '{garnish.strip()}' "
+                cursor.execute(f"SELECT id from garnishes WHERE name = {garnish};")
                 garnish_id = cursor.fetchone()[0]
-                cursor.execute('INSERT INTO cocktail_garnishes VALUES (:cocktail_id, :garnish_id)',
-                               {'cocktail_id': current_id, 'garnish_id': garnish_id})
-                db.commit()
-        current_id += 1
+                cursor.execute(f"INSERT INTO cocktail_garnishes (cocktail_id, garnish_id) VALUES ({cocktail_id}, {garnish_id})")
+                con.commit()
 
 
 def insert_cocktail_ingredients():
-    current_id = 1
-    for ingredient in cocktails.Ingredients:
-        if type(ingredient) != float:
-            ingredient_list = ingredient.split(',')
-            for ele in ingredient_list:
-                if "'" in ele:
-                    ele = double_apostrophe(string=ele)
-                ele = f" '{ele.strip()}' "
-                cursor.execute(f'''SELECT id from ingredients WHERE name = {ele}; ''')
+    cocktail_ingredients = cocktails[['Cocktail_Name', 'Ingredients']]
+    for row in cocktail_ingredients.itertuples():
+        cocktail_name = row[1]
+        if "'" in cocktail_name:
+            cocktail_name = double_apostrophe(string=cocktail_name)
+        ingredients = row[2]
+        if type(ingredients) != float:
+            cursor.execute(f"SELECT id from cocktails WHERE name = '{cocktail_name}';")
+            cocktail_id = cursor.fetchone()[0]
+            ingredient_list = ingredients.split(',')
+            for ingredient in ingredient_list:
+                if "'" in ingredient:
+                    ingredient = double_apostrophe(string=ingredient)
+                ingredient = f" '{ingredient.strip()}' "
+                cursor.execute(f"SELECT id from ingredients WHERE name = {ingredient};")
                 ingredient_id = cursor.fetchone()[0]
-                cursor.execute('INSERT INTO cocktail_ingredients VALUES (:cocktail_id, :ingredient_id)',
-                               {'cocktail_id': current_id, 'ingredient_id': ingredient_id})
-                db.commit()
-        current_id += 1
+                cursor.execute(
+                    f"INSERT INTO cocktail_ingredients (cocktail_id, ingredient_id) VALUES ({cocktail_id}, {ingredient_id})")
+                con.commit()
 
 
 def add_user_tables():
-    print('running')
-    create_commands = '''CREATE TABLE saved_cocktails
-    (
-      user_id     INTEGER,
-      cocktail_id INTEGER,
-      FOREIGN KEY(user_id) REFERENCES users(id)
-      FOREIGN KEY(cocktail_id) REFERENCES cocktails(id)
-    );
-    
+    create_commands = '''
+    DROP TABLE IF EXISTS users cascade;
     CREATE TABLE users
     (
-      id       INTEGER,
+      id   SERIAL,
       username TEXT,
       password TEXT,
       PRIMARY KEY (id)
+    );
+    DROP TABLE IF EXISTS saved_cocktails cascade;
+    CREATE TABLE saved_cocktails
+    (
+      user_id     INTEGER,
+      cocktail_id INTEGER,
+      FOREIGN KEY(user_id) REFERENCES users(id),
+      FOREIGN KEY(cocktail_id) REFERENCES cocktails(id)
     );'''
 
-    cursor.executescript(create_commands)
-    db.commit()
+    cursor.execute(create_commands)
+    con.commit()
 
 
 # create_db()
@@ -167,4 +191,8 @@ def add_user_tables():
 # insert_cocktail_garnishes()
 # insert_cocktail_ingredients()
 # add_user_tables()
-db.close()
+# con.commit()
+# con.close()
+
+
+
