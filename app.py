@@ -5,18 +5,22 @@ from sqlalchemy.ext.automap import automap_base
 import random
 import os
 
-app = Flask(__name__)
 
-password = os.environ.get('POSTGRE_PASS')
-db_host = os.environ.get('COCKTAILSDB_HOST')
-app.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://postgres:{password}@{db_host}:5432/cocktailpg'
-# app.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://postgres:{password}@localhost:5432/cocktailpg'
+app = Flask(__name__)
 app.secret_key = os.environ.get('COCKTAILS_FLASK_KEY')
+ENV = 'prod'
+
+if ENV == 'dev':
+    password = os.environ.get('POSTGRE_PASS')
+    app.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://postgres:{password}@localhost:5432/cocktailpg'
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
+
+
 db = SQLAlchemy(app)
 table_names = db.engine.table_names()
 Base = automap_base()
 Base.prepare(db.engine, reflect=True)
-
 
 
 cocktails = Base.classes.cocktails
@@ -174,5 +178,5 @@ def register():
     return render_template("register.html")
 
 
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run()

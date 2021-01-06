@@ -1,25 +1,24 @@
-import sqlite3
 import pandas
 import psycopg2
-
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-
+import os
 
 
 COCKTAILS_CSV = r"C:\python_course\coctkails_project\cocktails.csv"
-
 cocktails = pandas.read_csv(COCKTAILS_CSV)
-cocktails.columns = [c.replace(' ', '_') for c in cocktails.columns]  # this changes cocktail name to cocktail_name so that is can be called (cocktail.cocktail_name)
+cocktails.columns = [c.replace(' ', '_') for c in cocktails.columns]
 cocktail_attributes = cocktails[['Cocktail_Name', 'Ingredients', 'Garnish', 'Glassware', 'Preparation']]
 main_cocktail_attributes = cocktails[['Cocktail_Name', 'Glassware', 'Preparation']]
-# db = sqlite3.connect("C:\python_course\coctkails_project\cocktails.db")
 
 
-con = psycopg2.connect(database='cocktailpg', user='postgres', password='26Fountainsfall', host='127.0.0.1')
+ENV = 'prod'
+
+if ENV == 'dev':
+    password = os.environ.get('POSTGRE_PASS')
+    con = psycopg2.connect(database='cocktailpg', user='postgres', password={password}, host='127.0.0.1')
+else:
+    con = psycopg2.connect(os.environ.get('DATABASE_URL'))
 cursor = con.cursor()
 con.autocommit = True
-
-
 
 
 def double_apostrophe(string):
@@ -183,16 +182,13 @@ def add_user_tables():
     cursor.execute(create_commands)
     con.commit()
 
-
-# create_db()
-# initial_table_insert(dataset=normalize_rows(column=cocktails.Garnish), table_name='garnishes')
-# initial_table_insert(dataset=normalize_rows(column=cocktails.Ingredients), table_name='ingredients')
-# insert_data_into_cocktails()
-# insert_cocktail_garnishes()
-# insert_cocktail_ingredients()
-# add_user_tables()
-# con.commit()
-# con.close()
-
-
-
+def db_init():
+    create_db()
+    initial_table_insert(dataset=normalize_rows(column=cocktails.Garnish), table_name='garnishes')
+    initial_table_insert(dataset=normalize_rows(column=cocktails.Ingredients), table_name='ingredients')
+    insert_data_into_cocktails()
+    insert_cocktail_garnishes()
+    insert_cocktail_ingredients()
+    add_user_tables()
+    con.commit()
+    con.close()
