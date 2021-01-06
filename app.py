@@ -4,8 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import automap_base
 import random
 import os
-
-
+import dj_database_url
 
 app = Flask(__name__)
 
@@ -16,6 +15,8 @@ db = SQLAlchemy(app)
 table_names = db.engine.table_names()
 Base = automap_base()
 Base.prepare(db.engine, reflect=True)
+
+DATABASES = {'default': dj_database_url.config()}
 
 
 cocktails = Base.classes.cocktails
@@ -173,5 +174,5 @@ def register():
     return render_template("register.html")
 
 
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run()
