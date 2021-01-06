@@ -3,7 +3,8 @@ import psycopg2
 import os
 
 
-COCKTAILS_CSV = r"C:\python_course\coctkails_project\cocktails.csv"
+# COCKTAILS_CSV = r"C:\python_course\coctkails_project\cocktails.csv"
+COCKTAILS_CSV = "https://raw.githubusercontent.com/Ofeeri/cocktails-project/master/cocktails.csv"
 cocktails = pandas.read_csv(COCKTAILS_CSV)
 cocktails.columns = [c.replace(' ', '_') for c in cocktails.columns]
 cocktail_attributes = cocktails[['Cocktail_Name', 'Ingredients', 'Garnish', 'Glassware', 'Preparation']]
