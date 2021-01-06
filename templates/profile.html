@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>profile</title>
+
+	<link rel="stylesheet" href="static\\profile.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap" rel="stylesheet">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<header>g</header>
+	<div class="wrapper">
+		<div id="h1-wrapper">
+		<h1>Hello, {{username}}. Let's get a drink in your hands.</h1>
+			<div id="stored">
+				<form action="stored">
+					<input type="submit" value="your cocktails">
+				</form>
+			</div>
+			<div id="logout">
+				<form action="/profile/logout">
+					<input type="submit" value="logout">
+				</form>
+			</div>
+		</div>
+		<div class="content">
+
+			<div id="forms-wrapper">
+				<div id="search">
+					<form action="profile" method="post">
+						<input type="text" name="search" onfocus="this.value = ''" value="enter a drink or ingredient"><br>
+						<label>*3 characters or more</label><br><br>
+					</form>
+				</div>
+
+				<div id="random">
+					<form action="profile" method="post">
+						<input type="submit" name="random" value="try your luck">
+					</form>
+				</div>
+				<br>
+			</div>
+
+			<div id="search-display">
+				<form action="profile" method="post">
+					{% for name in names: %}
+						<input type="submit" name="select" value="{{name}}"><br><br>
+					{% endfor %}
+				</form>
+			</div>
+
+			<div id="info-display">
+			{% if content %}
+					<div class="main-wrapper">
+						<h2>The drink</h2>
+					{% for item in content[0]: %}
+						{% if item == content[0][0]: %}
+							<p>Name: {{item}}</p>
+						{% elif item == content[0][1]: %}
+							<p>Glass: {{item}}</p>
+						{% elif item == content[0][2]: %}
+							<p>Instructions: {{item}}</p>
+						{% endif %}
+					{% endfor %}
+					</div>
+					<div class="ingredients-wrapper">
+						<h3>Ingredients</h3>
+						{% for item in content[2]: %}
+							<ul>
+								<li>{{item}}</li>
+							</ul>
+						{% endfor %}
+					</div>
+					{% if content[1]: %}
+					<div class="garnishes-wrapper">
+						<h3>Garnish with</h3>
+						{% for item in content[1]: %}
+							 <ul>
+								<li>{{item}}</li>
+							</ul>
+						{% endfor %}
+						{% endif %}
+					</div>
+
+				<form id="store" action="profile" method="post">
+					<input type="submit" name="store" value="Save">
+				</form>
+			{% endif %}
+			</div>
+			<p id="store-info">*go to 'your cocktails' to see what you've saved</p>
+		</div>
+	</div>
+	<footer>ggggg</footer>
+
+</body>
+</html>

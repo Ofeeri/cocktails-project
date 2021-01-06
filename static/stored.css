@@ -1,0 +1,95 @@
+body {
+	height: 100%;
+	color: white;
+	margin: 0px;
+	background-image: url("\\static\\images\\hanging-glasses.jpg");
+  	background-size: cover;
+  	font-family: 'Libre Baskerville', serif;
+}
+
+
+header {
+	color: black;
+	background: black;
+	width: 100%;
+	opacity: 0.82;
+	height: 5%;
+}
+
+footer {
+	color: black;
+	background: black;
+	width: 100%;
+	height: 3%;
+	opacity: 0.82;
+	bottom: 0;
+	position: fixed;
+}
+
+h1 {
+	margin-left: 1.5%;
+}
+
+#display {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	margin-left: 3%;
+}
+
+
+
+#delete-display{
+	margin-left: 3%;
+}
+
+#delete input {
+	margin-top: 3%;
+	margin-left: 3%;
+	color: black;
+	background-color: white;
+	border: 2px solid white;
+	transition-duration: 0.7s;
+}
+
+#delete input:hover {
+	color: white;
+	background-color: black;
+	transition-duration: 0.7s
+}
+
+#cocktail input {
+	color: white;
+	background-color: black;
+	border: 1px solid white;
+	border-radius: 5px;
+	transition-duration: 0.7s;
+}
+
+#cocktail input:hover {
+	color: black;
+	background-color: white;
+	transition-duration: 0.7s;
+}
+
+.wrapper {
+	margin: auto;
+	width: 70%;
+	min-height: 100%;
+
+	background: #000000;
+	opacity: 0.82;
+	padding-bottom: 3%;
+
+}
+
+@media screen and (max-width: 800px) {
+	body {
+		background-image: none;
+		background-color: #0C0B31;
+	}
+
+	.wrapper {
+		width: 100%;
+	}
+}
