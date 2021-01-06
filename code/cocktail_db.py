@@ -192,3 +192,5 @@ def db_init():
     add_user_tables()
     con.commit()
     con.close()
+
+db_init()
