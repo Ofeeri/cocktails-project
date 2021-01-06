@@ -4,20 +4,20 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.automap import automap_base
 import random
 import os
-import dj_database_url
 
 
 app = Flask(__name__)
 
 password = os.environ.get('POSTGRE_PASS')
-app.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://postgres:{password}@localhost:5432/cocktailpg'
+db_host = os.environ.get('COCKTAILSDB_HOST')
+app.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://postgres:{password}@{db_host}:5432/cocktailpg'
+# app.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://postgres:{password}@localhost:5432/cocktailpg'
 app.secret_key = os.environ.get('COCKTAILS_FLASK_KEY')
 db = SQLAlchemy(app)
 table_names = db.engine.table_names()
 Base = automap_base()
 Base.prepare(db.engine, reflect=True)
 
-DATABASES = {'default': dj_database_url.config()}
 
 
 cocktails = Base.classes.cocktails
