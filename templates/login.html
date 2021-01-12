@@ -18,15 +18,19 @@
 	        <label>Username:</label><br>
 	        <input type="text" name="username"><br><br>
 	        <label>Password:</label><br>
-	        <input type="text" name="password"><br><br>
+	        <input type="password" name="password"><br><br>
 	        <input id="login-button" type="submit" value="Login">
 	    </form>
 	    <form id="register" action="/register">
-	        <label>First time here?</label\>
+	        <label>First time here?</label>
 	        <input id="reg-button" type="submit" value="Sign Up">
 	    </form>
 	</div>
-	</div>
+	{% if error: %}
+		<div id=error-box>
+			<p>{{error}}</p>
+		</div>
+	{% endif %}
 	<footer>gg</footer>
 </body>
 

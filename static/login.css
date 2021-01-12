@@ -36,6 +36,19 @@ body {
 	border-bottom-right-radius: 20%;
 }
 
+#error-box {
+	margin: auto;
+	text-align: center;
+	color: red;
+	border: 1px solid white;
+	background-color: white;
+	width: 15%;
+	border-radius: 15%;
+	opacity: 0.82;
+
+	font-size: 14px;
+}
+
 #main-box #login {
 	position: relative;
 	text-align: center;

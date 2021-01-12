@@ -11,7 +11,7 @@ cocktail_attributes = cocktails[['Cocktail_Name', 'Ingredients', 'Garnish', 'Gla
 main_cocktail_attributes = cocktails[['Cocktail_Name', 'Glassware', 'Preparation']]
 
 
-ENV = 'prod'
+ENV = 'dev'
 
 if ENV == 'dev':
     password = os.environ.get('POSTGRE_PASS')

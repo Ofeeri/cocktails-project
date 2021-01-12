@@ -47,6 +47,19 @@ body {
 	text-shadow: 1px 1px 1px #000;
 }
 
+#error-box {
+	margin: auto;
+	text-align: center;
+	color: red;
+	border: 1px solid white;
+	background-color: white;
+	width: 15%;
+	border-radius: 15%;
+	opacity: 0.82;
+
+	font-size: 14px;
+}
+
 
 footer {
 	color: black;
@@ -65,5 +78,9 @@ footer {
 
     #main-box #reg-button {
     	width: 30%;
+    }
+
+    #error-box {
+    	width: 40%;
     }
 }
