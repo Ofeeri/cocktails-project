@@ -103,7 +103,7 @@ footer {
     }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
 
 	#main-box {
     	width: 90%;
