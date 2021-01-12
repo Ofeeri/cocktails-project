@@ -9,7 +9,7 @@ import os
 app = Flask(__name__)
 app.secret_key = os.environ.get('COCKTAILS_FLASK_KEY')
 
-ENV = 'dev'
+ENV = 'prod'
 
 if ENV == 'dev':
     password = os.environ.get('POSTGRE_PASS')
