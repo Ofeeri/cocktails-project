@@ -96,4 +96,8 @@ footer {
     #main-box {
     	width: 90%;
     }
+
+    #error-box {
+    	width: 40%;
+    }
 }
