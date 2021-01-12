@@ -102,3 +102,16 @@ footer {
     	width: 60%;
     }
 }
+
+@media screen and (max-width: 800px) {
+
+	#main-box {
+    	width: 90%;
+    }
+
+    #error-box {
+    	width: 60%;
+    	color: white;
+    }
+
+}
