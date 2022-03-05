@@ -8,6 +8,7 @@ import os
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('COCKTAILS_FLASK_KEY')
+
 ENV = 'prod'
 
 if ENV == 'dev':
@@ -56,13 +57,38 @@ def random_cocktail():
     return cocktail_info
 
 
+def check_input_validity(string, username=False, password=False):
+    if string.isspace() or string == '':
+        f_session['error_message'] = 'field cannot be empty'
+        return False
+    try:
+        string.encode(encoding='utf-8').decode('ascii')
+    except UnicodeDecodeError:
+        f_session['error_message'] = 'please use english characters and symbols'
+        return False
+    if len(string) < 4 and string != ' ':
+        if username:
+            f_session['error_message'] = 'username must be at least 4 characters'
+        if password:
+            f_session['error_message'] = 'password must be at least 4 characters'
+        return False
+    return True
+
+
 def search_validity(user_input):
     if len(user_input) < 3:
         return False
     return True
 
 
+def add_user(new_username, new_password):
+    new_user = users(username=new_username, password=new_password)
+    db.session.add(new_user)
+    db.session.commit()
+
+
 def name_search_results(user_input):
+    user_input = user_input.lower()
     cocktail_query = db.session.query(cocktails).filter(func.lower(cocktails.name).contains(user_input)).all()
     ingredient_query = db.session.query(ingredients).filter(func.lower(ingredients.name).contains(user_input)).all()
     garnish_query = db.session.query(garnishes).filter(func.lower(garnishes.name).contains(user_input)).all()
@@ -87,11 +113,22 @@ def selection_query(selection):
     return cocktail_info
 
 
+def check_username_exists(username):
+    user_query = db.session.query(users).all()
+    user_names = [user.username for user in user_query]
+    if username in user_names:
+        f_session['error_message'] = 'user with that name already exists'
+        return False
+    else:
+        return True
+
+
 def check_for_user(input_username, input_password):
     user_query = db.session.query(users).all()
     for user in user_query:
         if user.__dict__['username'] == input_username and user.__dict__['password'] == input_password:
             return True
+    f_session['error_message'] = 'incorrect info given, user not found'
     return False
 
 
@@ -134,12 +171,17 @@ def login():
         if 'username' in request.form and 'password' in request.form:
             username = request.form['username']
             password = request.form['password']
-            if check_for_user(username, password):
-                f_session['login_success'] = True
-                f_session['username'] = username
-                return redirect(url_for('profile'))
+            user_valid = check_input_validity(username, username=True)
+            password_valid = check_input_validity(password, password=True)
+            if not user_valid or not password_valid:
+                return render_template("login.html", error=f_session['error_message'])
             else:
-                return redirect(url_for('login'))
+                if check_for_user(username, password):
+                    f_session['login_success'] = True
+                    f_session['username'] = username
+                    return redirect(url_for('profile'))
+                else:
+                    return render_template("login.html", error=f_session['error_message'])
     return render_template("login.html")
 
 
@@ -170,13 +212,17 @@ def register():
         if 'new_username' in request.form and 'new_password' in request.form:
             new_username = request.form['new_username']
             new_password = request.form['new_password']
-            if len(new_username) > 0 and len(new_password) > 0:
-                new_user = users(username=new_username, password=new_password)
-                db.session.add(new_user)
-                db.session.commit()
+            user_valid = check_input_validity(new_username, username=True)
+            password_valid = check_input_validity(new_password, password=True)
+            if not check_username_exists(username=new_username):
+                return render_template("register.html", error=f_session['error_message'])
+            if not user_valid or not password_valid:
+                return render_template("register.html", error=f_session['error_message'])
+            if user_valid and password_valid:
+                add_user(new_username=new_username, new_password=new_password)
                 return redirect(url_for("login"))
     return render_template("register.html")
 
 
-# if __name__ == '__main__':
-#     app.run()
+if __name__ == '__main__':
+    app.run()
